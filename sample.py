@@ -1,18 +1,10 @@
-from huggingface_hub import InferenceClient
-import os
-from load_dotenv import load_dotenv
+from diffusers import DiffusionPipeline
 
-load_dotenv()
+# pipe = DiffusionPipeline.from_pretrained("Lightricks/LTX-Video")
+pipe = DiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5")
 
-API_KEY = os.getenv("HUGGING_FACE_API_KEY")
-print(API_KEY)
-client = InferenceClient(
-    provider="together",
-    api_key=API_KEY,
-)
 
-video = client.text_to_image(
-	"A young man walking on the street",
-	model="black-forest-labs/FLUX.1-dev",
-)
-print(video)
+prompt = "In the epic Mahabharata, Arjuna is described as a tall, dark, and exceedingly handsome warrior, possessing curly locks, a broad chest, and long arms, known for his skill with a bow and arrows.  Here's a more detailed look at Arjuna's physical description from the Mahabharata: Height and Build: Arjuna is depicted as tall, though shorter than his brother Bhima by a span of a thumb. He is described as having a broad chest and long arms.  Complexion and Features: Arjuna has dark skin, and some depictions also refer to him as having a burnished copper eye color. He also has curly locks.  Skills and Abilities: Arjuna is a skilled archer, capable of using powerful bows like Gandiva and shooting arrows with great speed and accuracy. He is also agile and can perform complex movements, such as dancing, with ease.  Other Notable Characteristics: He is known for his determination, skill, and his fierce expression on the battlefield.  Depiction: Arjuna is generally depicted in profile with a determined, even fierce, expression on his face. He is often depicted with a golden crown or a corolla of gold. His dark face often sports a moustache. "
+image = pipe(prompt).images[0]
+image.save("arjuna_image.png")  # Save the image to a file
+# image.show()  # Uncomment this if you want to display it (works in some environments)
